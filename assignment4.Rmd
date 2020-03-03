@@ -1,7 +1,7 @@
 ---
 title: "Statistical assignment 4"
-author: "[add your name here]"
-date: "[add date here]"
+author: "Youran Xu"
+date: "March 2nd, 2020"
 output: github_document
 ---
 
@@ -22,10 +22,10 @@ First we will need to open and recode the data. I supply the code for this; you 
 
     ```{r}
 library(tidyverse)
-Data8 <- read_tsv("...h_indresp.tab")
+Data8 <- read_tsv("/Users/youran/Data3-2020/data/UKDA-6614-tab/tab/ukhls_w8/h_indresp.tab")
 Data8 <- Data8 %>%
         select(pidp, h_age_dv, h_payn_dv, h_gor_dv)
-Stable <- read_tsv("...xwavedat.tab")
+Stable <- read_tsv("/Users/youran/Data3-2020/data/UKDA-6614-tab/tab/ukhls_wx/xwavedat.tab")
 Stable <- Stable %>%
         select(pidp, sex_dv, ukborn, plbornc)
 Data <- Data8 %>% left_join(Stable, "pidp")
@@ -67,22 +67,53 @@ Reproduce the following graphs as close as you can. For each graph, write two se
 1. Univariate distribution (20 points).
 
     ```{r}
+    Data %>% 
+        ggplot(aes(x = h_payn_dv)) +
+        geom_freqpoly() +
+        xlab("Net monthly pay") +
+        ylab("Number of respondents")
+    
+    # The major distribution of participants sits below the net monthly income of 3000, with a peak at around 1300. There is also a much smaller peak of around 200 participants at the net monthly income of 5500.
     ```
 
 2. Line chart (20 points). The lines show the non-parametric association between age and monthly earnings for men and women.
 
     ```{r}
+    Data %>% 
+        filter(!is.na(sex_dv)) %>% 
+        ggplot(aes(x = h_age_dv, y = h_payn_dv, linetype = sex_dv)) +
+        geom_line() +
+        geom_smooth() +
+        xlab("Age") +
+        ylab("Monthly earnings") +
+        xlim(0,60) +
+        ylim(0,2000)
+    
+    # Monthly earnings increase with age before the decrease at 43 for men, and the age of 48 for women. Men in general have a higher monthly earning than women, with the gap starting to widen u at the age of 25. 
     ```
 
 3. Faceted bar chart (20 points).
 
     ```{r}
+    Data %>% 
+        filter(!is.na(sex_dv)) %>% 
+        filter(!is.na(placeBorn)) %>% 
+        group_by(sex_dv, placeBorn) %>%
+        summarise(medianPay = median(h_payn_dv, na.rm = TRUE)) %>% 
+        ggplot(aes(x = sex_dv, y = medianPay)) +
+        geom_bar(stat = "identity") +
+        facet_wrap(~ as.factor(placeBorn)) +
+        xlab("Sex") +
+        ylab("Median Monthly net pay")
+    
+    # The pay gap between sexes exists among all groups of different origins, with participants from Ireland the widest pay gap, and Bangladesh the narrowest. However, monthly net pay in general is the lowest for people from Bangladesh (below £1000), which shows the exiistance of a pay gap between different groups of origins, which could also be due to the typical skill-levels of immigrant workers.
     ```
 
 4. Heat map (20 points).
 
     ```{r}
-    
+    Data %>% 
+        
     ```
 
 5. Population pyramid (20 points).
