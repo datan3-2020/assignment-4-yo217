@@ -127,6 +127,7 @@ Reproduce the following graphs as close as you can. For each graph, write two se
         ylab("Country of birth") +
         theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5))
     
+    # The graph shows the age distribution among different groups of origin and their residence area. To note that people from Nigeria, Bangladesh and Poland are particularly young, regardless their residence, which may be due to the reason of immigration - seeking for work.
     ```
 
 5. Population pyramid (20 points).
