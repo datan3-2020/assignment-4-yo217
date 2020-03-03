@@ -113,7 +113,20 @@ Reproduce the following graphs as close as you can. For each graph, write two se
 
     ```{r}
     Data %>% 
-        
+        filter(!is.na(h_age_dv) & !is.na(h_gor_dv) & !is.na(placeBorn)) %>% 
+        group_by(h_gor_dv, placeBorn) %>% 
+        summarise(meanAge = mean(h_age_dv)) %>% 
+        ggplot(aes(x = h_gor_dv, y = placeBorn, fill = meanAge)) +
+        geom_tile() +
+        geom_raster() +
+        theme(
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank()
+  ) +
+        xlab("Region") +
+        ylab("Country of birth") +
+        theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5))
+    
     ```
 
 5. Population pyramid (20 points).
