@@ -140,3 +140,27 @@ write two sentences (not more\!) describing its main message.
     ```
 
 5.  Population pyramid (20 points).
+    
+    ``` r
+    #     Data %>%
+    #+         filter(!is.na(sex_dv)) %>%
+    #+         group_by(h_age_dv, sex_dv) %>% 
+    #+         ggplot(aes(x = h_age_dv, fill = sex_dv)) +
+    #+         geom_bar(data = subset(Data, sex_dv == "male")) +
+    #+         geom_bar(data = subset(Data, sex_dv == "female"), aes(y = ..count.. * (-1)))
+    
+    
+    ggplot(data = Data,aes(x = h_age_dv, fill = sex_dv)) + 
+        geom_bar(data = subset(Data, sex_dv == "female")) + 
+        geom_bar(data = subset(Data, sex_dv =="male"),aes(y=..count..*(-1))) + 
+        coord_flip() +
+        ylab("n") +
+        xlab("Age") +
+        labs(fill = "Sex")
+    ```
+    
+    ![](assignment4_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+    
+    ``` r
+     # The graph shows a tendency of aging population, with the majority at the age between 37.5 and 70, and halved the number of young labour force between the age of 25 and 35. However, the distribution across sex is rather even.
+    ```
